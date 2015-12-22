@@ -31,3 +31,5 @@ with term.cbreak():
 ```
 
 Now if you want to show other information, you can print it on each keystroke.
+
+(see step2.py and step3.py for this)
