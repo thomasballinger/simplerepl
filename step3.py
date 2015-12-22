@@ -3,8 +3,6 @@ import blessed
 import ast
 
 term = blessed.Terminal()
-line = ''
-msg = ''
 
 
 def write(s):
@@ -12,7 +10,7 @@ def write(s):
     sys.stdout.flush()
 
 
-def display(current_line, msg):
+def display(current_line, msg, lines):
     """Paints a simple scene after clearing screen:
 
     +===================+
@@ -24,7 +22,10 @@ def display(current_line, msg):
     write(term.clear)  # also moves cursor to top left
     write('\n')
     write(msg)
-    write(term.cuu(1))
+    write('\n')
+    for line in lines[-20:]:
+        print line
+    write(term.cuu(1000))
     write('\r')  # cursor to beginning of line
     write(current_line.upper())
 
@@ -39,12 +40,16 @@ def is_valid_python(s):
 
 
 if __name__ == '__main__':
+    line = ''
+    valid_lines = []
+
     with term.cbreak():
         while True:
             inp = term.inkey()
             if inp == '\n':
-                msg = line
-                line = ''
+                if is_valid_python(line):
+                    valid_lines.append(line)
+                    line = ''
             elif inp.code == term.KEY_DELETE:
                 line = line[:-1]
             elif inp.is_sequence:
@@ -52,4 +57,5 @@ if __name__ == '__main__':
             else:
                 line += inp
 
-            display(line, '(^.^)' if is_valid_python(line) else '*_*')
+            msg = '(^.^)' if is_valid_python(line) else '*_*'
+            display(line, msg, valid_lines)
