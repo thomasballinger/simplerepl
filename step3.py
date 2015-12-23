@@ -39,6 +39,14 @@ def is_valid_python(s):
         return True
 
 
+def run_code(s):
+    try:
+        return '>>> ' + s + '\n' + repr(eval(s))
+    except:
+        exec(s)
+        return '>>> ' + s
+
+
 if __name__ == '__main__':
     line = ''
     valid_lines = []
@@ -48,7 +56,7 @@ if __name__ == '__main__':
             inp = term.inkey()
             if inp == '\n':
                 if is_valid_python(line):
-                    valid_lines.append(line)
+                    valid_lines.append(run_code(line))
                     line = ''
             elif inp.code == term.KEY_DELETE:
                 line = line[:-1]
