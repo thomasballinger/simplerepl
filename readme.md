@@ -45,5 +45,4 @@ what do you want to do next?
 
 * [update on keystroke whether the current line is valid](step3.py)
 
-
 (see step2.py and step3.py for this)
